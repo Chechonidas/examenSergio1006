@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen</title>
+
+    <style>
+
+        h1{
+            text-align: center;
+            margin-top: 3%;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            width: 40%;
+            padding: 3%;
+            gap: 20px;
+            justify-self: center;
+            text-align: justify;
+            border-radius: 3%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+
+        label{
+            display: inline-block;
+        }
+
+        body{
+            background-color: #f9f9f9;
+        }
+
+        button{
+            padding: 10px;
+            color: white;
+            background-color: #4CAF50;
+            width: 63.5%;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            align-self: flex-end;
+        }
+
+        .inputTexto{
+            width: 60%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            float: right;
+        }
+
+        .mensajito{
+            display: flex;
+            width: 40%;
+            padding-top: 1%;
+            padding-left: 3%;
+            padding-right: 3%;
+            padding-bottom: 1%;
+            margin-top: 2%;
+            justify-self: center;
+            text-align: justify;
+            border-radius: 3%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            visibility: hidden;
+        }
+
+        .sexoaMargen{
+            display: inline-block;
+            margin-left: 25%;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <h1>Cálculo del Índice de Masa Muscular</h1>
+
+    <form action="">
+    <div class="container">
+            <div>
+                <label for="nombre"></label>Tu nombre:<input class="inputTexto" type="text" id="nombre" required>
+            </div>
+            <div>
+                <label for="peso">Tu peso en Kilos:</label><input class="inputTexto" type="number" id="peso" min="1" max="300" required>
+            </div>
+            <div>
+                <label for="estatura">Tu estatura en m:</label><input class="inputTexto" type="number" id="estatura" step="any" required>
+            </div>
+            <div>
+                <label for="prueba">Tu sexo:</label>
+                    <div class="sexoaMargen">
+                        <label for="mujer">Mujer</label><input type="radio" id="mujer" name="sexo" value="Señora">
+                    </div>
+                    <div class="sexoaMargen">
+                        <label for="prueba2">Hombre</label><input type="radio" id="hombre" name="sexo" value="Señor" required>
+                    </div>
+            </div>
+            <button type="submit" onclick="calcularIMC()">Calcular IMC</button>
+    </div>
+    </form>
+
+    <div>
+        <div class="mensajito" id="contenedorMensaje">
+            <p id="mensaje"></p>
+        </div>
+    </div>
+
+    <script>
+
+        const NOMBRE = document.getElementById("nombre");
+        const PESO = document.getElementById("peso");
+        const ESTATURA = document.getElementById("estatura");
+        const SEXO_MUJER = document.getElementById("mujer");
+        const SEXO_HOMBRE = document.getElementById("hombre");
+
+        function calcularIMC(){
+
+            // VARIABLES VARIAS
+            let nombreFinal = NOMBRE.value;
+            let estaturaFinal = Number(ESTATURA.value);
+            let pesoFinal = Number(PESO.value);
+            let mensajeFinal = document.getElementById("mensaje")
+            let divMensajeFinal = document.getElementById("contenedorMensaje");
+            const sexoFinal = document.querySelector('input[name="sexo"]:checked');
+            let imc = pesoFinal / (estaturaFinal**2)
+
+            // FUNCION PRINCIPAL
+
+            if (sexoFinal){
+                divMensajeFinal.style.visibility = "visible"
+                if (imc <= 18.5){
+                    mensajeFinal.innerHTML = sexoFinal.value + " " + nombreFinal + ", está en un peso bajo (imc=" + imc.toFixed(2) + ")";
+                    event.preventDefault();
+                }else if (imc > 18.5 && imc <= 25){
+                    mensajeFinal.innerHTML = sexoFinal.value + " " + nombreFinal + ", está en un peso normal (imc=" + imc.toFixed(2) + ")";
+                    event.preventDefault();
+                }else if (imc > 25 && imc <= 30){
+                    mensajeFinal.innerHTML = sexoFinal.value + " " + nombreFinal + ", tiene usted sobrepeso (imc=" + imc.toFixed(2) + ")";
+                    event.preventDefault();
+                }else if (imc > 30){
+                    mensajeFinal.innerHTML = sexoFinal.value + " " + nombreFinal + ", tiene usted obesidad (imc=" + imc.toFixed(2) + ")";
+                    event.preventDefault();
+                }
+            }   else{
+                mensajeFinal.innerHTML = "Elige el sexo";
+                event.preventDefault();
+            }   
+            
+
+            
+        }
+    </script>
+
+</body>
+</html>
